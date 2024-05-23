@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+* {
+  font-family: 'Archivo', sans-serif;
+}
+
+@keyframes anime {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(0.9);
+  }
+}
+
+.anime {
+  animation: anime 1s ease-in-out infinite alternate;
+}
