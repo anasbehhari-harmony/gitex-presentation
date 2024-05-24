@@ -1,31 +1,104 @@
 import { ImageSection } from '@/components/Image';
 import { VideoPlayer } from '@/components/Video';
-import { ModuleNames } from '@/enums';
-import { getOneModule } from '@/services';
 import { ModuleData } from '@/types';
 import { Transition } from '@mantine/core';
 import { useDisclosure, useHotkeys } from '@mantine/hooks';
 import clsx from 'clsx';
-import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+const data = [
+  {
+    slug: '/smart-industry',
+    image: '/assets/smart-industry.svg',
+    pointers: [
+      {
+        label: 'smart-industry 1',
+        offset: {
+          top: 54,
+          left: 28,
+        },
+        href: 'smart-industry/video/1',
+        videoHref:
+          'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+      },
+      {
+        label: 'smart-industry 2',
+        offset: {
+          top: 24,
+          left: 53,
+        },
+        href: 'smart-industry/video/2',
+        videoHref:
+          'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+      },
+    ],
+  },
+  {
+    slug: '/smart-hospital',
+    image: '/assets/smart-hospital.svg',
+    pointers: [
+      {
+        label: 'smart-hospital 1',
+        offset: {
+          top: 50,
+          left: 30,
+        },
+        href: 'smart-hospital/video/1',
+        videoHref:
+          'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
+      },
+    ],
+  },
+  {
+    slug: '/smart-administration',
+    image: '/assets/smart-administration.svg',
+    pointers: [
+      {
+        label: 'smart-administration 1',
+        offset: {
+          top: 44,
+          left: 55,
+        },
+        href: 'smart-administration/video/1',
+        videoHref:
+          'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
+      },
+    ],
+  },
+  {
+    slug: '/smart-university',
+    image: '/assets/smart-university.svg',
+    pointers: [
+      {
+        label: 'smart-university 1',
+        offset: {
+          top: 33,
+          left: 70,
+        },
+        href: 'smart-university/video/1',
+        videoHref:
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Big_Buck_Bunny_thumbnail_vlc.png/1200px-Big_Buck_Bunny_thumbnail_vlc.png',
+      },
+    ],
+  },
+];
 
-interface IndexPageProps {
-  moduleData: ModuleData;
-}
 
-export default function Index(props: IndexPageProps) {
+
+export default function Index() {
   const router = useRouter();
   const [mounted, { open, close }] = useDisclosure(false);
   const [videoVisible, { open: showVideo, close: hideVideo }] = useDisclosure(false);
   const [currentVideo, setCurrentVideo] = useState<string | undefined>(undefined);
-  const [currentImage, setCurrentImage] = useState<string>(props.moduleData.image);
   const [controls, controlsAction] = useDisclosure(false);
   const [expended, action] = useDisclosure(false);
+  const [currentModule, setCurrentModule] = useState<ModuleData>(data[0]);
+  const [currentImage, setCurrentImage] = useState<string>(currentModule.image);
   const videoContainerClassNames = clsx('fixed z-[900] top-0 right-0  h-full !transition-all', {
     'w-full': expended,
     'w-[80%]': !expended,
   });
+
   useHotkeys([['escape', videoVisible ? hideVideo : () => {}]]);
 
   useEffect(() => {
@@ -37,7 +110,7 @@ export default function Index(props: IndexPageProps) {
   }, []);
 
   useEffect(() => {
-    const newImage = props.moduleData.image;
+    const newImage = currentModule.image;
     if (currentImage !== newImage) {
       close();
       const timeoutId = setTimeout(() => {
@@ -47,11 +120,21 @@ export default function Index(props: IndexPageProps) {
 
       return () => clearTimeout(timeoutId);
     }
-  }, [props.moduleData.image]);
+  }, [currentModule.image]);
 
   useEffect(() => {
+    if (router.query?.slug) {
+      const slug = router.query?.slug[0];
+      const module = data.find((item) => item.slug === '/' + slug);
+      console.log(module,slug);
+      if (module) {
+        setCurrentModule(module);
+      }
+    }
+  }, [router.query?.slug]);
+  useEffect(() => {
     if (router.query.slug && router.query.slug[1] != null) {
-      const currentPointer = props.moduleData.pointers.find(
+      const currentPointer = currentModule.pointers.find(
         (el) => el.href == (router.query.slug as string[]).join('/')
       );
       if (currentPointer) {
@@ -99,10 +182,10 @@ export default function Index(props: IndexPageProps) {
       <ImageSection
         currentImage={currentImage}
         mounted={mounted}
-        pointers={props.moduleData.pointers}
+        pointers={currentModule.pointers}
       />
 
-      <Transition mounted={videoVisible} transition="fade-up">
+      <Transition mounted={videoVisible} transition="fade-up" timingFunction="ease">
         {(styles) => (
           <div style={styles} className={videoContainerClassNames}>
             <VideoPlayer
@@ -122,19 +205,3 @@ export default function Index(props: IndexPageProps) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-  const { slug } = query;
-  const ModuleName = slug != null && slug.length > 0 ? slug[0] : ModuleNames.SMART_INDS;
-  const moduleData: ModuleData = await getOneModule(ModuleName);
-  if (!moduleData) {
-    return {
-      notFound: true,
-    };
-  }
-
-  return {
-    props: {
-      moduleData,
-    },
-  };
-};

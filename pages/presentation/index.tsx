@@ -1,17 +1,13 @@
 import { ModulePathnames } from "@/enums";
-import { GetServerSideProps } from "next";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 export default function HomePage() {
-  return <>Hello</>;
-}
+  const router = useRouter();
 
+  useEffect(() => {
+    router.replace(ModulePathnames.SMART_INDS);
+  }, [router]);
 
-export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-  
-  return {
-    redirect: {
-      permanent: false,
-      destination: ModulePathnames.SMART_INDS,
-    }
-  };
+  return <>Redirecting...</>;
 }

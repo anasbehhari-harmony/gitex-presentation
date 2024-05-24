@@ -31,7 +31,7 @@ const data: AsideItem[] = [
 
 export function AppLayout(props: AppLayoutProps) {
   return (
-    <main className={'relative w-screnn h-screen'}>
+    <main className={'relative w-screen h-screen'}>
       <Flex className="w-full h-full ">
         <Aside data={data} />
         <div className="w-[calc(100%-20%)]">{props.children}</div>

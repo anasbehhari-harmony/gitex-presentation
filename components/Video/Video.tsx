@@ -14,8 +14,10 @@ interface VideoProps {
   onSwipeDown: () => void;
   withControls: boolean;
 }
+
 export function VideoPlayer(props: VideoProps) {
   const ref = useRef<HTMLVideoElement>(null);
+  
   const classNames = clsx(
     'video-container !transition-all duration-700 absolute right-0 flex justify-center items-center top-0 z-[999] h-full bg-black w-full'
   );
@@ -23,11 +25,11 @@ export function VideoPlayer(props: VideoProps) {
   const handlers = useSwipeable({
     onSwipedLeft: props.onSwipeLeft,
     onSwipedRight: props.onSwipeRight,
-    onSwipedUp: props.onSwipeUp,
-    onSwipedDown: props.onSwipeDown,
-    onSwiped: (evnt) => {
-      console.log(evnt);
+    onSwipedUp: () => {
+      ref.current?.focus();
+      props.onSwipeUp();
     },
+    onSwipedDown: props.onSwipeDown,
   });
   useEffect(() => {
     if (ref.current && props.currentVideo) {
