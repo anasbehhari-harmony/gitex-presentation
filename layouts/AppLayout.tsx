@@ -17,7 +17,7 @@ const data: AsideItem[] = [
   },
   {
     content: (
-      <div className="text-center">
+      <div className="text-left">
         Smart <br /> Administration
       </div>
     ),

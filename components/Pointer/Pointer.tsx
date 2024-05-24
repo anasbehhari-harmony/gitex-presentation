@@ -24,8 +24,10 @@ export function Pointer(props: PointerProps) {
             left: props.offset.left + '%',
             top: props.offset.top + '%',
           }}
-          className="absolute transition-all active:scale-95  bg-black bg-opacity-40  w-[6vw] h-[6vw] rounded-full border-4 border-white"
-        />
+          className="absolute transition-all "
+        >
+          <div className="bg-black anime active:scale-95  bg-opacity-40  w-[6vw] h-[6vw] rounded-full border-4 border-white"></div>
+        </div>
       </Tooltip>
     </Link>
   );

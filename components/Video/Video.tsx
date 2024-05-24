@@ -1,5 +1,5 @@
 import { IconBack } from '@/icons';
-import { isVideoPlaying } from '@/lib';
+import { isVideoPlaying } from '@/components/Video/lib';
 import clsx from 'clsx';
 import { useEffect, useRef } from 'react';
 import { useSwipeable } from 'react-swipeable';
