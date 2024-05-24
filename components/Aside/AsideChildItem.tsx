@@ -11,7 +11,7 @@ export function AsideChildItem(props: AsideChildItemProps) {
   const { query } = useRouter();
   const classNames = clsx('w-5/6 h-5/6 transition-all duration-500 active:scale-95', {
     'text-white': props.href.includes(query?.slug?.[0] as string),
-    'bg-slate-50': !props.href.includes(query?.slug?.[0] as string),
+    '': !props.href.includes(query?.slug?.[0] as string),
   });
   const ref = useRef<HTMLAnchorElement>(null);
   useEffect(() => {
@@ -30,7 +30,7 @@ export function AsideChildItem(props: AsideChildItemProps) {
       className="h-1/4 w-full bg-transparent z-20 text-black "
     >
       <Link ref={ref} className={classNames} href={props.href}>
-        <Flex align={'center'} justify={'center'} className="text-3xl font-semibold w-full h-full ">
+        <Flex align={'center'} justify={'center'} className="text-3xl font-semibold w-full h-full">
           {props.content}
         </Flex>
       </Link>

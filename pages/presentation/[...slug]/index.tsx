@@ -1,13 +1,15 @@
-import { Pointer } from '@/components/Pointer';
+import { ImageSection } from '@/components/Image';
+import { VideoPlayer } from '@/components/Video';
 import { ModuleNames } from '@/enums';
-import { IconBack } from '@/icons';
 import { getOneModule } from '@/services';
 import { ModuleData } from '@/types';
-import { Flex, Transition } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
+import { Transition } from '@mantine/core';
+import { useDisclosure, useHotkeys } from '@mantine/hooks';
+import clsx from 'clsx';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+
 interface IndexPageProps {
   moduleData: ModuleData;
 }
@@ -18,6 +20,13 @@ export default function Index(props: IndexPageProps) {
   const [videoVisible, { open: showVideo, close: hideVideo }] = useDisclosure(false);
   const [currentVideo, setCurrentVideo] = useState<string | undefined>(undefined);
   const [currentImage, setCurrentImage] = useState<string>(props.moduleData.image);
+  const [controls, controlsAction] = useDisclosure(false);
+  const [expended, action] = useDisclosure(false);
+  const videoContainerClassNames = clsx('fixed z-[900] top-0 right-0  h-full !transition-all', {
+    'w-full': expended,
+    'w-[80%]': !expended,
+  });
+  useHotkeys([['escape', videoVisible ? hideVideo : () => {}]]);
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -42,13 +51,13 @@ export default function Index(props: IndexPageProps) {
 
   useEffect(() => {
     if (router.query.slug && router.query.slug[1] != null) {
-      const currentPointer = props.moduleData.pointers.find((el) =>
-        el.href.includes(router.query.slug?.[1] as string)
+      const currentPointer = props.moduleData.pointers.find(
+        (el) => el.href == (router.query.slug as string[]).join('/')
       );
       if (currentPointer) {
         setCurrentVideo(currentPointer.videoHref);
+        showVideo();
       }
-      showVideo();
     } else {
       setCurrentVideo(undefined);
       hideVideo();
@@ -56,37 +65,56 @@ export default function Index(props: IndexPageProps) {
   }, [router.query.slug]);
 
   const handleBackClick = () => {
-    router.back();
+    const ExistingQuery = router.query;
+    controlsAction.close();
+    router.push({
+      pathname: router.pathname,
+      query: {
+        slug: ExistingQuery.slug?.slice(0, 1),
+      },
+    });
   };
-
+  const handleSwipingLeft = () => {
+    if (!expended) {
+      action.open();
+    }
+  };
+  const handleSwipingRight = () => {
+    if (expended) {
+      action.close();
+    }
+  };
+  const handleSwipingUp = () => {
+    if (!controls) {
+      controlsAction.open();
+    }
+  };
+  const handleSwipingDown = () => {
+    if (controls) {
+      controlsAction.close();
+    }
+  };
   return (
     <div className="w-full h-full relative">
-      <Transition mounted={mounted} transition="pop">
-        {(styles) => (
-          <Flex style={styles} align="center" justify="center" className="w-full h-full">
-            <div className="relative w-[70%] h-[70%]">
-              {props.moduleData.pointers.map((el, index) => {
-                return <Pointer {...el} key={index} />;
-              })}
-              <img className="h-full w-full" src={currentImage} alt="" />
-            </div>
-          </Flex>
-        )}
-      </Transition>
+      <ImageSection
+        currentImage={currentImage}
+        mounted={mounted}
+        pointers={props.moduleData.pointers}
+      />
 
-      <Transition mounted={videoVisible} transition="pop">
+      <Transition mounted={videoVisible} transition="fade-up">
         {(styles) => (
-          <div
-            style={styles}
-            className="video-container fixed flex justify-center items-center top-0 left-0 z-[999] w-full h-full bg-black bg-opacity-90"
-          >
-            <div
-              className="transition-all absolute left-8 top-8 back z-20 cursor-pointer bg-yellow-500 rounded-full text-black p-2 active:scale-95"
-              onClick={handleBackClick}
-            >
-              <IconBack className="size-14 " />
-            </div>
-            <video controls className="w-full h-full z-10 left-0 absolute" src={currentVideo} />
+          <div style={styles} className={videoContainerClassNames}>
+            <VideoPlayer
+              currentVideo={currentVideo}
+              videoVisible={videoVisible}
+              onBackClicked={handleBackClick}
+              onSwipeLeft={handleSwipingLeft}
+              onSwipeRight={handleSwipingRight}
+              onSwipeDown={handleSwipingDown}
+              onSwipeUp={handleSwipingUp}
+              withControls={controls}
+            />
           </div>
         )}
       </Transition>

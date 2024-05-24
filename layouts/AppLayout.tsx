@@ -8,7 +8,7 @@ interface AppLayoutProps {
 }
 const data: AsideItem[] = [
   {
-    content: 'Smart Inustry',
+    content: 'Smart Industry',
     href: ModulePathnames.SMART_INDS,
   },
   {
