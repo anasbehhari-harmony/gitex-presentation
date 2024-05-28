@@ -60,7 +60,7 @@ export function VideoPlayer(props: VideoProps) {
         ref={ref}
         controls={props.withControls}
         autoPlay
-        className="w-full h-full z-10 left-0  object-cover"
+        className="w-full h-full z-10 left-0"
       />
     </div>
   );

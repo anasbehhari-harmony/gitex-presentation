@@ -19,7 +19,7 @@ const data = [
         },
         href: 'smart-industry/video/1',
         videoHref:
-          'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+          '/assets/videos/smart-industry-1.mp4',
       },
       {
         label: 'smart-industry 2',
@@ -29,7 +29,7 @@ const data = [
         },
         href: 'smart-industry/video/2',
         videoHref:
-          'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+        '/assets/videos/smart-industry-2.mp4',
       },
     ],
   },
@@ -45,7 +45,7 @@ const data = [
         },
         href: 'smart-hospital/video/1',
         videoHref:
-          'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
+        '/assets/videos/smart-hospital.mp4',
       },
     ],
   },
@@ -61,7 +61,7 @@ const data = [
         },
         href: 'smart-administration/video/1',
         videoHref:
-          'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
+        '/assets/videos/smart-administration.mp4',
       },
     ],
   },
@@ -77,7 +77,7 @@ const data = [
         },
         href: 'smart-university/video/1',
         videoHref:
-          'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Big_Buck_Bunny_thumbnail_vlc.png/1200px-Big_Buck_Bunny_thumbnail_vlc.png',
+        '/assets/videos/smart-university.mp4',
       },
     ],
   },
