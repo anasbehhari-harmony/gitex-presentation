@@ -28,7 +28,7 @@ export function Aside(props: AsideProps) {
     <Flex direction={'column'} className="w-[20%] border-r border-r-gray-200 ">
       <div
         ref={TrackerRef}
-        className="absolute tracker bg-yellow-500 rounded-md transition-all duration-500"
+        className="absolute tracker bg-yellow-500 rounded-md transition-all duration-[100]"
         style={style}
       />
       {props.data != null &&

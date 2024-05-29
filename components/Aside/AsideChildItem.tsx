@@ -10,10 +10,10 @@ interface AsideChildItemProps extends AsideItem {
 export function AsideChildItem(props: AsideChildItemProps) {
   const { query } = useRouter();
   const classNames = clsx(
-    'w-5/6 h-5/6 transition-all duration-500 active:scale-95 rounded focus-within:ring-4 focus-within:ring-yellow-500 focus-within:ring-opacity-30',
+    'w-5/6 h-5/6 transition-all duration-[100] active:scale-95 rounded  focus-within:ring-yellow-500 focus-within:ring-opacity-30',
     {
       'text-white': props.href.includes(query?.slug?.[0] as string),
-      '': !props.href.includes(query?.slug?.[0] as string),
+      '!bg-gray-100': !props.href.includes(query?.slug?.[0] as string),
     }
   );
   const ref = useRef<HTMLAnchorElement>(null);
