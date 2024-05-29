@@ -9,81 +9,74 @@ import { useEffect, useState } from 'react';
 const data = [
   {
     slug: '/smart-industry',
-    image: '/assets/smart-industry.svg',
+    image: '/assets/images/smart-industry.png',
     pointers: [
       {
-        label: 'smart-industry 1',
+        label: 'Smart Factory',
         offset: {
-          top: 54,
-          left: 28,
+          top: 21.5,
+          left: 50.5,
         },
         href: 'smart-industry/video/1',
-        videoHref:
-          '/assets/videos/smart-industry-1.mp4',
+        videoHref: '/assets/videos/smart-industry-1.mp4',
       },
       {
-        label: 'smart-industry 2',
+        label: 'Smart Warehouse',
         offset: {
-          top: 24,
-          left: 53,
+          top: 36.7,
+          left: 10,
         },
         href: 'smart-industry/video/2',
-        videoHref:
-        '/assets/videos/smart-industry-2.mp4',
+        videoHref: '/assets/videos/smart-industry-2.mp4',
       },
     ],
   },
   {
     slug: '/smart-hospital',
-    image: '/assets/smart-hospital.svg',
+    image: '/assets/images/smart-hospital.png',
     pointers: [
       {
-        label: 'smart-hospital 1',
+        label: 'Smart Hospital',
         offset: {
-          top: 50,
-          left: 30,
+          top: 60,
+          left: 57.5,
         },
         href: 'smart-hospital/video/1',
-        videoHref:
-        '/assets/videos/smart-hospital.mp4',
+        videoHref: '/assets/videos/smart-hospital.mp4',
       },
     ],
   },
   {
     slug: '/smart-administration',
-    image: '/assets/smart-administration.svg',
+    image: '/assets/images/smart-administration.png',
     pointers: [
       {
-        label: 'smart-administration 1',
+        label: 'Smart Administration',
         offset: {
-          top: 44,
-          left: 55,
+          top: 11.5,
+          left: 41.5,
         },
         href: 'smart-administration/video/1',
-        videoHref:
-        '/assets/videos/smart-administration.mp4',
+        videoHref: '/assets/videos/smart-administration.mp4',
       },
     ],
   },
   {
     slug: '/smart-university',
-    image: '/assets/smart-university.svg',
+    image: '/assets/images/smart-university.png',
     pointers: [
       {
-        label: 'smart-university 1',
+        label: 'Smart University',
         offset: {
-          top: 33,
-          left: 70,
+          top: 39,
+          left: 62.5,
         },
         href: 'smart-university/video/1',
-        videoHref:
-        '/assets/videos/smart-university.mp4',
+        videoHref: '/assets/videos/smart-university.mp4',
       },
     ],
   },
 ];
-
-
 
 export default function Index() {
   const router = useRouter();
@@ -126,12 +119,13 @@ export default function Index() {
     if (router.query?.slug) {
       const slug = router.query?.slug[0];
       const module = data.find((item) => item.slug === '/' + slug);
-      console.log(module,slug);
+      console.log(module, slug);
       if (module) {
         setCurrentModule(module);
       }
     }
   }, [router.query?.slug]);
+
   useEffect(() => {
     if (router.query.slug && router.query.slug[1] != null) {
       const currentPointer = currentModule.pointers.find(
@@ -145,6 +139,7 @@ export default function Index() {
       setCurrentVideo(undefined);
       hideVideo();
     }
+
   }, [router.query.slug]);
 
   const handleBackClick = () => {
@@ -157,21 +152,25 @@ export default function Index() {
       },
     });
   };
+
   const handleSwipingLeft = () => {
     if (!expended) {
       action.open();
     }
   };
+
   const handleSwipingRight = () => {
     if (expended) {
       action.close();
     }
   };
+
   const handleSwipingUp = () => {
     if (!controls) {
       controlsAction.open();
     }
   };
+
   const handleSwipingDown = () => {
     if (controls) {
       controlsAction.close();
@@ -204,4 +203,3 @@ export default function Index() {
     </div>
   );
 }
-

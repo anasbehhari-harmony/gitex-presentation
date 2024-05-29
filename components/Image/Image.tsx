@@ -11,7 +11,7 @@ export function ImageSection(props: ImageSectionProps) {
     <Transition mounted={props.mounted} transition="pop">
       {(styles) => (
         <Flex style={styles} align="center" justify="center" className="w-full h-full">
-          <div className="relative w-[70%] h-[70%]">
+          <div className="relative w-[90%] h-[90%]">
             {props.pointers.map((el, index) => {
               return <Pointer {...el} key={index} />;
             })}
